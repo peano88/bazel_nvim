@@ -22,7 +22,7 @@ local defaults = {
     gazelle = { -- options for the bazel gazelle command
         split = "horizontal", -- split direction
     },
-    alias = "", -- alias for the bazel command (e.g. "bazelisk")
+    alias = "bazel", -- alias for the bazel command (e.g. "bazel" or "bazelisk")
 }
 
 function M.setup(user_config)
