@@ -1,6 +1,7 @@
 local M = {}
 
 local bazel_root_directory = nil
+local Config = require('bazel_nvim.config')
 
 function M.get_bazel_root_directory(current_directory)
     if bazel_root_directory then
@@ -60,6 +61,14 @@ function M.get_selected_item(bufnr)
     return selected_item_t[1]
 end
 
+function M.split(action)
+    if Config.options[action].split == "horizontal" then
+        vim.cmd.split()
+    else
+        vim.cmd.vsplit()
+    end
+end
+
 function M.set_buf_for_query(query_command)
     local query_output = vim.fn.systemlist(query_command)
     -- open new buffer, where
@@ -67,7 +76,7 @@ function M.set_buf_for_query(query_command)
     -- <leader>t is the command to bazel test the selected item
     -- <leader>b is the command to bazel build the selected item
     -- TODO check if the buffer already exists
-    vim.cmd.split()
+    M.split('query')
     local bufnr = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_name(bufnr, query_command)
     vim.api.nvim_set_current_buf(bufnr)
@@ -90,8 +99,6 @@ function M.process_input_path(input_path)
     end
     return input_path
 end
-
--- Module functions
 
 function M.is_bazel_project()
     return M.get_bazel_root_directory(vim.fn.getcwd()) ~= nil
