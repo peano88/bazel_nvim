@@ -15,7 +15,7 @@ function M.action(action)
         return
     end
     local run_command = bazel_command(action) .. selected_item
-    M.wrap_term(run_command, action)
+    M.wrap_term(run_command, {action = action})
 end
 
 local function bazel_runner(params, path_getter, callback)
