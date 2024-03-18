@@ -52,6 +52,3 @@ local defaults = {
     alias = "bazel", -- alias for the bazel command (e.g. "bazelisk")
 }
 ```
-
-
-

@@ -69,27 +69,6 @@ function M.split(action)
     end
 end
 
-function M.set_buf_for_query(query_command)
-    local query_output = vim.fn.systemlist(query_command)
-    -- open new buffer, where
-    -- <leader>r is the command to bazel run the selected item
-    -- <leader>t is the command to bazel test the selected item
-    -- <leader>b is the command to bazel build the selected item
-    -- TODO check if the buffer already exists
-    M.split('query')
-    local bufnr = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_name(bufnr, query_command)
-    vim.api.nvim_set_current_buf(bufnr)
-    vim.api.nvim_buf_set_lines(bufnr, 0, #query_output, false, query_output)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n','<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n','<leader>t', "<Cmd>lua require('bazel_nvim.bazel').action('test')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n','<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v','<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v','<leader>t', "<Cmd>lua require('bazel_nvim.bazel').action('test')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v','<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>", {})
-    vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<Cmd>bd<CR>', {})
-end
-
 function M.process_input_path(input_path)
     if not (input_path:sub(-3) == '...') then
         if not (input_path:sub(-1) == '/') then
