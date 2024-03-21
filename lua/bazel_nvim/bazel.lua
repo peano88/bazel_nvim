@@ -15,7 +15,7 @@ function M.action(action)
         return
     end
     local run_command = bazel_command(action) .. selected_item
-    M.wrap_term(run_command, {action = action})
+    M.wrap_term(run_command, { action = action })
 end
 
 local function bazel_runner(params, path_getter, callback)
@@ -53,13 +53,19 @@ function M.set_interactive_buf(command, params)
     vim.api.nvim_set_current_buf(bufnr)
     vim.api.nvim_buf_set_lines(bufnr, 0, #query_output, false, query_output)
     vim.api.nvim_buf_set_name(bufnr, command)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>t', "<Cmd>lua require('bazel_nvim.bazel').action('test')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>t', "<Cmd>lua require('bazel_nvim.bazel').action('test')<CR>", {})
-    vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>", {})
-    vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<Cmd>bd<CR>', {})
+
+    bufnr = 0
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>",
+        { noremap = true })
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>t', '', {
+        noremap = true,
+        callback = function()
+            M.action('test')
+        end
+    })
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>",
+        { noremap = true })
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'q', '<Cmd>bd<CR>', { noremap = true })
 end
 
 local function current_path(params)
@@ -79,16 +85,16 @@ end
 function M.gazelle()
     -- gazelle is a different run beast, we handle it differnetly
     local bazel_exec = config.options.alias or 'bazel'
-    local run_command = bazel_exec .. ' //:gazelle'
-    M.wrap_term(run_command, {action = 'gazelle'})
+    local run_command = bazel_exec .. 'run //:gazelle'
+    M.wrap_term(run_command, { action = 'gazelle' })
 end
 
 function M.test()
-    bazel_runner({ recursive = true, action = 'test'}, current_path, M.wrap_term)
+    bazel_runner({ recursive = true, action = 'test' }, current_path, M.wrap_term)
 end
 
 function M.query()
-    bazel_runner({ recursive = true, action ='query'}, current_path, M.wrap_term)
+    bazel_runner({ recursive = true, action = 'query' }, current_path, M.wrap_term)
 end
 
 function M.test_select()
