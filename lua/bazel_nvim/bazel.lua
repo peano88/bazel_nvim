@@ -69,11 +69,12 @@ function M.set_interactive_buf(command, params)
 end
 
 local function current_path(params)
-    local bazel_root = utils.get_bazel_root_directory(vim.fn.getcwd())
+    local buffer_directory = utils.buffer_directory(0)
+    local bazel_root = utils.get_bazel_root_directory(buffer_directory)
     if bazel_root == nil then
         return
     end
-    return utils.bazelize_path(vim.fn.getcwd(), bazel_root, params.recursive)
+    return utils.bazelize_path(buffer_directory, bazel_root, params.recursive)
 end
 
 local function user_input_path(params)
@@ -85,7 +86,7 @@ end
 function M.gazelle()
     -- gazelle is a different run beast, we handle it differnetly
     local bazel_exec = config.options.alias or 'bazel'
-    local run_command = bazel_exec .. 'run //:gazelle'
+    local run_command = bazel_exec .. ' run //:gazelle'
     M.wrap_term(run_command, { action = 'gazelle' })
 end
 

@@ -26,6 +26,10 @@ function M.get_bazel_root_directory(current_directory)
 
 end
 
+function M.buffer_directory(bufnr)
+    return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':h')
+end
+
 function M.get_relative_directory(path, relative_to)
     if path == relative_to then
     -- current directory is the bazel get_bazel_root_directory
