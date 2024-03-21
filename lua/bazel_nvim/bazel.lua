@@ -80,7 +80,7 @@ function M.gazelle()
     -- gazelle is a different run beast, we handle it differnetly
     local bazel_exec = config.options.alias or 'bazel'
     local run_command = bazel_exec .. ' //:gazelle'
-    M.wrap_term(run_command, 'gazelle')
+    M.wrap_term(run_command, {action = 'gazelle'})
 end
 
 function M.test()
