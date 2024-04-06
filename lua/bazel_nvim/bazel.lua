@@ -44,26 +44,20 @@ end
 function M.set_interactive_buf(command, params)
     local query_output = vim.fn.systemlist(command)
     -- open new buffer, where
-    -- <leader>r is the command to bazel run the selected item
-    -- <leader>t is the command to bazel test the selected item
-    -- <leader>b is the command to bazel build the selected item
-    -- TODO check if the buffer already exists
+    -- r is the command to bazel run the selected item
+    -- t is the command to bazel test the selected item
+    -- b is the command to bazel build the selected item
     utils.split(params.action)
     local bufnr = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_set_current_buf(bufnr)
     vim.api.nvim_buf_set_lines(bufnr, 0, #query_output, false, query_output)
     vim.api.nvim_buf_set_name(bufnr, command)
 
-    bufnr = 0
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>",
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'r', "<Cmd>lua require('bazel_nvim.bazel').action('run')<CR>",
         { noremap = true })
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>t', '', {
-        noremap = true,
-        callback = function()
-            M.action('test')
-        end
-    })
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>",
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'b', "<Cmd>lua require('bazel_nvim.bazel').action('build')<CR>",
+        { noremap = true })
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 't', "<Cmd>lua require('bazel_nvim.bazel').action('test')<CR>",
         { noremap = true })
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'q', '<Cmd>bd<CR>', { noremap = true })
 end
@@ -95,7 +89,7 @@ function M.test()
 end
 
 function M.query()
-    bazel_runner({ recursive = true, action = 'query' }, current_path, M.wrap_term)
+    bazel_runner({ recursive = true, action = 'query' }, current_path, M.set_interactive_buf)
 end
 
 function M.test_select()
@@ -103,7 +97,7 @@ function M.test_select()
 end
 
 function M.query_select()
-    bazel_runner({ recursive = false, action = 'test' }, user_input_path, M.set_interactive_buf)
+    bazel_runner({ recursive = false, action = 'query' }, user_input_path, M.set_interactive_buf)
 end
 
 return M

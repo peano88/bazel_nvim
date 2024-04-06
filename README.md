@@ -9,10 +9,10 @@ a work-in-progress nvim plugin for bazel
 `bazel test //bar/...`;
 - `BazelTestSelect` - runs `bazel test` recursively on the path provided by the user interactively;
 - `BazelQuery` - runs `bazel query` on the folder of the current buffer (same as `BazelTest`); the output is displayed in a new buffer which allows the following keystroke:
-  - `<leader>t` - runs `bazel test` on the selected target;
-  - `<leader>b` - runs `bazel build` on the selected target;
-  - `<leader>r` - runs `bazel run` on the selected target;
-  - `<leader>q` - closes the buffer;
+  - `t` - runs `bazel test` on the selected target;
+  - `b` - runs `bazel build` on the selected target;
+  - `r` - runs `bazel run` on the selected target;
+  - `q` - closes the buffer;
 - `BazelQuerySelect` - runs `bazel query` on the path provided by the user interactively; the same output and options of `BazelTest` are available; 
 
 ## Set up
@@ -52,3 +52,18 @@ local defaults = {
     alias = "bazel", -- alias for the bazel command (e.g. "bazelisk")
 }
 ```
+
+## Dev corner
+
+You can use the `test/examples` folder to test live the plugin. It is a git submodule, so be sure to init it without looking into it.
+
+You can ease the development by launchin trough  a dedicated script:
+```
+./test/dev_env.sh
+```
+and you can use the reload function (right now it will call the `query` command) by:
+
+```
+:lua require('reload')
+```
+which will create the `:BNReload` command. 
