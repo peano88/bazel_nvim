@@ -71,9 +71,12 @@ local function current_path(params)
     return utils.bazelize_path(buffer_directory, bazel_root, params.recursive)
 end
 
-local function user_input_path(params)
-    local to_prompt = config.options[params.action].select_default_path or current_path(params.recursive)
-    local input_path = vim.fn.input(params.action .. ' path: ', to_prompt)
+local function user_input_path( params)
+    local starting_path_to_prompt = config.options[params.action].select_default_path
+    if not starting_path_to_prompt or starting_path_to_prompt == "" then
+        starting_path_to_prompt = current_path(params)
+    end
+    local input_path = vim.fn.input(params.action .. ' path: ' .. starting_path_to_prompt)
     return utils.process_input_path(input_path)
 end
 

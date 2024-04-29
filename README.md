@@ -39,12 +39,12 @@ local defaults = {
     query = { -- options for the bazel query command
         split = "horizontal", -- split direction
         args = "", -- additional arguments
-        select_default_path = "", -- default path to use when selecting a path/target
+        select_default_path = nil, -- default path to use when selecting a path/target
     },
     test = { -- options for the bazel test command
         split = "horizontal", -- split direction
         args = "", -- additional arguments
-        select_default_path = "", -- default path to use when selecting a path/target
+        select_default_path = nil, -- default path to use when selecting a path/target
     },
     gazelle = { -- options for the bazel gazelle command
         split = "horizontal", -- split direction
@@ -62,6 +62,7 @@ You can ease the development by launchin trough  a dedicated script:
 ./test/dev_env.sh
 ```
 and you can use the reload function (right now it will call the `query` command) by:
+(not always working as expected :( ) 
 
 ```
 :lua require('reload')

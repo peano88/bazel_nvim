@@ -5,7 +5,7 @@
     2. [ ] search files;
     3. [ ] running shell command silently;
 - [ ] configuration:
-    1. [ ] split or vsplit
+    1. [X ] split or vsplit
     2. [ ] remap
     3. [ ] allow options in query (e.g. filters, kind, etc)
 - [ ] help
@@ -15,3 +15,5 @@
     1. [ ] generate
     2. [ ] build 
     3. [ ] allow options in query (e.g. filters, kind, etc)
+- [ ] tests
+    1. [ ] make reload working
