@@ -76,7 +76,7 @@ local function user_input_path( params)
     if not starting_path_to_prompt or starting_path_to_prompt == "" then
         starting_path_to_prompt = current_path(params)
     end
-    local input_path = vim.fn.input(params.action .. ' path: ' .. starting_path_to_prompt)
+    local input_path = vim.fn.input(params.action .. ' path: ', starting_path_to_prompt)
     return utils.process_input_path(input_path)
 end
 
