@@ -3,12 +3,13 @@ local M = {}
 local bazel_root_directory = nil
 local Config = require('bazel_nvim.config')
 
+-- Maybe use bazel info -> workspace
 function M.get_bazel_root_directory(current_directory)
     if bazel_root_directory then
         return bazel_root_directory
     end
-    -- assumption: the root directory is the first directory with a WORKSPACE file 
-    -- if the current directory has a WORKSPACE file, return it 
+    -- assumption: the root directory is the first directory with a WORKSPACE file or a MODULE.bazel file
+    -- if the current directory has such file, return it 
     -- else, go up one directory and try again
 
     -- if cwd is the root directory, return nil
@@ -17,7 +18,8 @@ function M.get_bazel_root_directory(current_directory)
     end
 
     local current_directory_has_workspace = vim.fn.filereadable(current_directory..'/WORKSPACE')
-    if current_directory_has_workspace == 1 then
+    local current_directory_has_module = vim.fn.filereadable(current_directory..'/MODULE.bazel')
+    if current_directory_has_workspace == 1  or current_directory_has_module == 1 then
         bazel_root_directory = current_directory
         return current_directory
     end
