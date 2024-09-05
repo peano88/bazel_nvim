@@ -4,16 +4,21 @@
     1. [ ] string manipulation;
     2. [ ] search files;
     3. [ ] running shell command silently;
-- [ ] configuration:
-    1. [X ] split or vsplit
-    2. [ ] remap
-    3. [ ] allow options in query (e.g. filters, kind, etc)
+    4. [ ] table operations?;
+- [X] configuration:
+    1. [X] split or vsplit
+    2. [X] remap
+    3. [X] allow options in query (e.g. filters, kind, etc)
 - [ ] help
     1. [ ] create an help file
     2. [ ] create help for query output
 - [ ] commands
-    1. [ ] generate
+    1. [ ] generate?
     2. [ ] build 
-    3. [ ] allow options in query (e.g. filters, kind, etc)
-- [ ] tests
-    1. [ ] make reload working
+    3. [X] allow options in query (e.g. filters, kind, etc)
+    4. [X] run
+- [X] tests
+    1. [X] make reload working
+- [ ] logs
+    1. [ ] create a log file and write to it
+    2. [ ] allow to set the log file

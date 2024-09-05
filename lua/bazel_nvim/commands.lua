@@ -1,31 +1,37 @@
 local bazel = require('bazel_nvim.bazel')
+local utils = require('bazel_nvim.utils')
 
 vim.api.nvim_create_user_command('BazelTest',
-function()
-    bazel.test()
-end, {})
+function(opts)
+    bazel.test(utils.parse_f_args(opts))
+end, {nargs='*'})
 
 vim.api.nvim_create_user_command('BazelTestSelect',
-function()
-    bazel.test_select()
-end, {})
+function(opts)
+    bazel.test_select(utils.parse_f_args(opts))
+end, {nargs='*'})
 
 vim.api.nvim_create_user_command('BazelGazelle',
-function()
-    bazel.gazelle()
-end, {})
+function(opts)
+    bazel.gazelle(utils.parse_f_args(opts))
+end, {nargs='*'})
 
 vim.api.nvim_create_user_command('BazelQuery',
-function()
-    bazel.query()
-end, {})
+function(opts)
+    bazel.query(utils.parse_f_args(opts))
+end, {nargs='*'})
 
 vim.api.nvim_create_user_command('BazelQuerySelect',
-function()
-    bazel.query_select()
-end, {})
+function(opts)
+    bazel.query_select(utils.parse_f_args(opts))
+end, {nargs='*'})
 
-vim.api.nvim_create_user_command('BazelQueryWithFilter',
-function(filter)
-    bazel.query_with_filter(filter)
-end, {})
+vim.api.nvim_create_user_command('BazelRun',
+function(opts)
+    bazel.run(utils.parse_f_args(opts))
+end, {nargs='*'})
+
+vim.api.nvim_create_user_command('BazelBuild',
+function(opts)
+    bazel.build(utils.parse_f_args(opts))
+end, {nargs='*'})

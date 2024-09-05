@@ -1,7 +1,6 @@
 local M = {}
 
 local bazel_root_directory = nil
-local Config = require('bazel_nvim.config')
 
 -- Maybe use bazel info -> workspace
 function M.get_bazel_root_directory(current_directory)
@@ -67,11 +66,11 @@ function M.get_selected_item(bufnr)
     return selected_item_t[1]
 end
 
-function M.split(action)
-    if Config.options[action].split == "horizontal" then
-        vim.cmd.split()
-    else
+function M.split(params)
+    if params.config.split == "vertical" then
         vim.cmd.vsplit()
+    else
+        vim.cmd.split()
     end
 end
 
@@ -87,6 +86,32 @@ end
 
 function M.is_bazel_project()
     return M.get_bazel_root_directory(vim.fn.getcwd()) ~= nil
+end
+
+function M.create_buf_name_for_command(command)
+    -- iterate on command name
+    -- and checke if a buffer exists with that name
+    -- if it does, iterate again 
+    -- if it doesn't, return the name
+
+    local current_name = command
+    local iteration = 1
+    while vim.fn.bufexists(current_name) == 1 do
+        current_name = current_name..tostring(iteration)
+        iteration = iteration + 1
+    end
+    return current_name
+end
+
+function M.parse_f_args(opts)
+    local f_args = {}
+    -- for each argument, split at ':' and use the lhs as option and the rhs as values
+    for _, arg in ipairs(opts.fargs) do
+        local split_arg = vim.split(arg, ':')
+        f_args[split_arg[1]] = split_arg[2]
+    end
+
+    return f_args
 end
 
 return M
